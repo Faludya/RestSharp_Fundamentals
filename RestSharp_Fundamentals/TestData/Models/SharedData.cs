@@ -11,6 +11,6 @@ namespace RestSharp_Fundamentals.TestData.Models
         public string payload { get; set; }
 
         public string clientId { get; set; }
-        public string jobId { get; set; }
+        public string bookingid { get; set; }
     }
 }

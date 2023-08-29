@@ -40,6 +40,21 @@ namespace RestSharp_Fundamentals.Helpers
             return this;
         }
 
+        public RestActions ExecuteGetRequest(string resource, string jsonString="", ICollection<KeyValuePair<string, string>> headers = null)
+        {
+            RestRequest = new RestRequest(resource, Method.Get);
+            if (headers != null)
+            {
+                RestRequest.AddHeaders(headers); //TODO: what do the headers do? what addition do they bring
+            }
+
+            RestRequest.AddStringBody(jsonString, DataFormat.Json);
+            RestResponse = RestClient.ExecuteGetAsync(RestRequest).GetAwaiter().GetResult();
+            Log.Debug(GetLoggableRequest());
+
+            return this;
+        }
+
         public RestActions AssertResponseCode(HttpStatusCode statusCode = HttpStatusCode.OK) //TODO: why is it like this? Because it is most common?
         {
             if (RestResponse == null)

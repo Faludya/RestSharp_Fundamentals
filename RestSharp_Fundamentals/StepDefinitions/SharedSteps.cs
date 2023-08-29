@@ -28,6 +28,8 @@ namespace RestSharp_Fundamentals.StepDefinitions
         {
             switch (type) 
             {
+                //TODO: finish setting up the payload with necessary information
+                //need to learn how to add the headers (pair values)
                 case "application json":
                     _sharedData.payload = JsonConvert.SerializeObject(BaseConfig.AuthHeader);
                     break;
@@ -41,13 +43,26 @@ namespace RestSharp_Fundamentals.StepDefinitions
         [When(@"I make a POST request to the ""([^""]*)"" endpoint")]
         public void WhenIMakeAPOSTRequestToTheEndpoint(string path)
         {
-            _restActions.ExecutePostRequest(path);
+            //TODO: understand what the other parameter does and how to initialize it?
+            _restActions.ExecutePostRequest(path, _sharedData.payload);
+        }
+
+        [When(@"I make a GET request to the ""([^""]*)"" endpoint")]
+        public void WhenIMakeAGETRequestToTheEndpoint(string path)
+        {
+            _restActions.ExecuteGetRequest(path);
         }
 
         [StepDefinition(@"the response status code should be ""([^""]*)""")]
         public void ThenTheResponseStatusCodeShouldBe(int statusCode)
         {
             _restActions.AssertResponseCode((HttpStatusCode)statusCode);
+        }
+
+        [Then(@"the response message should be ""([^""]*)""")]
+        public void ThenTheResponseMessageShouldBe(string responseMessage)
+        {
+            StringAssert.AreEqualIgnoringCase(responseMessage, _restActions.RestResponse.Content);
         }
     }
 }
